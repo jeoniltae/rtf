@@ -17,10 +17,11 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
   — 화면 ID(`MAIN-01`, `EVT-03P` 등), URL 규칙, 권한표(8장), 입력값 규칙(9-2), 데이터 구조(10장)의 원본
 - 기술 스택 (노션): https://app.notion.com/p/41a45580eb6b81a3a6cfebc9bd5aab09
 - 코딩 규칙 및 금지 사항: `docs/coding-guidelines.md`
-- 작업 결정 기록: `docs/context-notes.md`
-- 작업 목록 및 미해결 이슈: `docs/todo.md`
-- 기능별 상세 작업 기록: `docs/features/` — `todo.md`에서 분량이 커진 항목을 기능 단위로 분리해 둔다.
+- 작업 결정 기록 (여러 기능에 걸친 결정): `docs/context-notes.md`
+- 작업 목록 (프로젝트 전체 목차): `docs/todo.md`
+- 기능별 spec · plan: `docs/plans/YYYY-MM-DD-<slug>/` — `/feature-workflow` 산출물.
   해당 기능을 손대기 전에 반드시 확인할 것
+- feature-workflow 프로젝트 설정: `.claude/feature-workflow.md`
 
 ---
 

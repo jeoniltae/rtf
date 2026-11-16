@@ -2,6 +2,15 @@
 
 결정한 내용과 이유를 최신순으로 남긴다. 기획 단계 결정은 노션 화면설계서 11장 · 기술 스택 문서를 따른다.
 
+## 2026-11-17 — feature-workflow 도입
+
+- 새 기능은 전역 스킬 `/feature-workflow`로 진행. 설정은 `.claude/feature-workflow.md`
+- 기능 단위 기록은 `docs/plans/YYYY-MM-DD-<slug>/`(spec·plan)로 통일하고 `docs/features/`는 삭제 — 같은 역할의 폴더가 두 개면 어디에 쓸지 헷갈림
+- `docs/todo.md`는 전체 목차로만 쓰고 기능 항목에 plan 폴더 링크를 단다. `context-notes.md`는 여러 기능에 걸친 결정만
+- `design: existing` — 브랜드 컬러·디자인 시안 전까지 shadcn 기본 토큰을 따른다. 시안이 나오면 다시 결정
+- `base_branch: main` — `staging` 브랜치를 만든 뒤 `staging`으로 바꾼다
+- 이 프로젝트는 CLAUDE.md 없이 AGENTS.md만 쓰므로, 스킬의 "CLAUDE.md 우선" 규칙은 AGENTS.md에 해당한다
+
 ## 2026-11-16 — 코딩 지침 정리
 
 - mareca의 `docs/coding-guidelines.md`를 기준으로 금지 사항과 에이전트 작업 지침을 가져와 rtf에 맞게 조정
