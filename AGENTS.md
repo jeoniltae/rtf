@@ -2,7 +2,7 @@
 
 ## 프로젝트 개요
 
-개혁신학포럼(RTF, Reformed Theological Forum) 홈페이지 — rtf.or.kr.
+개혁신학포럼(RTF, Reformed Theology Forum) 홈페이지 — rtf.or.kr.
 포럼 소개, 이번 포럼(개요·프로그램·발제자·장소), 연구자료(논문·칼럼·자료실), 지난 포럼·영상 아카이브, 공지·Q&A 게시판을 제공한다.
 UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768px → `lg:` 1024px).
 팀 규모: 1인 개발.
