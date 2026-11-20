@@ -2,6 +2,17 @@
 
 결정한 내용과 이유를 최신순으로 남긴다. 기획 단계 결정은 노션 화면설계서 11장 · 기술 스택 문서를 따른다.
 
+## 2026-11-20 — 폴더 구조 FSD 경량 적용 + Steiger
+
+- **B안(경량)** 채택. Next.js 라우팅 `src/app`은 그대로 두고 `widgets` · `features` · `entities` · `shared`만 FSD로. FSD 원칙대로(A안) 하면 FSD의 `app` · `pages` 레이어가 Next.js 폴더 이름과 겹쳐 라우팅 폴더를 루트로 옮기고 `_app` · `_pages`로 이름을 바꾸고 화면마다 다시 내보내는 파일을 둬야 함 — 1인 개발에 비해 부담이 커서 제외. 화면 조립은 `page.tsx`가 맡는다
+- Supabase 클라이언트는 `shared/api/supabase`. 공개 진입점을 `index.ts`(브라우저용 `createSupabaseBrowserClient`)와 `index.server.ts`(서버용 `createSupabaseServerClient`, `updateSession`)로 나눔 — 하나에 섞으면 Client Component가 import할 때 `next/headers`가 브라우저 번들로 끌려감. Steiger `--fix`는 하나로 묶어 버려서 쓰지 않음
+- 원본 파일의 함수 이름(`createClient`)은 그대로 두고 진입점에서만 새 이름으로 내보냄. 두 클라이언트가 같은 이름이라 진입점에서 구분이 필요했음
+- Steiger 0.10 + `@feature-sliced/steiger-plugin` 0.8. `src/app` · `src/proxy.ts` · 테스트 파일은 검사 제외. `npm run lint`에 묶어 feature-workflow VERIFY에서 자동 실행되게 함
+- Steiger 설정 파일은 `steiger.config.mts` + `--config`로 지정. `.ts`로 두면 package.json에 `"type": "module"`이 없어 Node가 매번 경고를 냄. `.mts`는 자동 탐색이 안 돼서 경로를 명시
+- shadcn `components.json` 경로를 `@/shared/ui` · `@/shared/lib`로 바꿈 → `shadcn add`가 `src/shared/ui/`에 생성 (dry-run으로 확인)
+- `db:types` 출력은 `src/shared/api/supabase/database.ts`
+- 빈 레이어 폴더는 만들지 않음. 첫 슬라이스가 생길 때 만든다
+
 ## 2026-11-20 — 테스트 도구 도입 (Vitest + Playwright)
 
 - 단위 테스트는 Vitest, E2E는 Playwright. feature-workflow VERIFY에서 바뀐 파일에 따라 골라 실행한다 — 전역 스킬은 고치지 않고 `.claude/feature-workflow.md`의 VERIFY · BUILD 섹션에만 조건을 적었다. 다른 프로젝트에서도 같은 패턴이 반복되면 전역 스킬로 옮긴다

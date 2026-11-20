@@ -16,6 +16,7 @@ base_branch: main # staging 브랜치를 만든 뒤 staging으로 바꾼다
 - 권한이 갈리는 기능이면 화면설계서 8장 권한표에서 해당하는 줄(비회원 / 가입자 / 관리자)을 spec에 옮겨 적는다
 - 데이터를 쓰는 기능이면 화면설계서 10장에서 쓰는 테이블·컬럼을 "영향 범위"에 적는다
 - `docs/todo.md`의 해당 항목 옆에 이 기능 폴더 링크를 단다
+- spec의 "영향 범위"에 만들거나 고칠 FSD 슬라이스(예: `entities/speaker`, `widgets/speaker-popup`)를 적는다
 
 ## PLAN
 
@@ -27,19 +28,20 @@ base_branch: main # staging 브랜치를 만든 뒤 staging으로 바꾼다
 
 ## BUILD
 
-- 코딩 규칙 `docs/coding-guidelines.md`를 따른다 (금지 사항, 새 파일 첫 줄 한국어 주석 포함)
+- 코딩 규칙 `docs/coding-guidelines.md`를 따른다 (금지 사항, FSD 폴더 구조, 새 파일 첫 줄 한국어 주석 포함)
+- 새 코드는 FSD 레이어(`widgets` · `features` · `entities` · `shared`) 중 어디에 둘지 먼저 정하고, Steiger 오류(`npm run lint`)가 없게 한다
 - Next.js 16 API는 `node_modules/next/dist/docs/`에서 확인한 뒤 쓴다
 - shadcn/ui 컴포넌트가 필요하면 `npx shadcn@latest add <이름>`으로 그 컴포넌트만 추가한다
 - 예시 데이터에는 더미 값만 쓴다 (홍길동, 010-0000-0000, test@example.com)
 - 테스트 작성 범위 (`test-driven-development` 적용 범위를 이렇게 좁힌다)
-  - 순수 함수·zod 스키마·날짜 포맷 등 `src/lib/` 로직 → Vitest로 테스트를 먼저 쓴다 (`src/**/*.test.ts`, 대상 파일 옆에 둔다)
+  - 순수 함수·zod 스키마·날짜 포맷 등 로직(`shared/lib`, 각 슬라이스의 `model` · `lib` 세그먼트) → Vitest로 테스트를 먼저 쓴다 (`*.test.ts`, 대상 파일 옆에 둔다)
   - 화면·컴포넌트·Server Action → 작업마다 테스트를 먼저 쓰지 않는다. 기능 단위로 spec의 사용자 시나리오를 `e2e/<기능>.spec.ts`에 Playwright로 작성한다 (BUILD 마지막 작업으로 넣는다)
 
 ## VERIFY
 
 - 이 기능에서 바뀐 파일(미커밋 변경 + 기능 진행 중 커밋했다면 그 커밋)을 보고 테스트를 고른다. 고른 이유와 결과를 종료 보고에 적는다
-  - `src/lib/`, zod 스키마, 유틸 함수 → `npm test` (Vitest — `test: auto`로 매번 자동 실행됨)
-  - 페이지·컴포넌트·레이아웃·Server Action·`src/proxy.ts`·`next.config.ts` → `npm run test:e2e` (Playwright, 모바일 360px · PC 1280px 두 프로젝트)
+  - `shared/lib`, 슬라이스의 `model` · `lib` 세그먼트(zod 스키마·유틸 함수) → `npm test` (Vitest — `test: auto`로 매번 자동 실행됨)
+  - `src/app`, 슬라이스의 `ui` · `api` 세그먼트(화면·컴포넌트·Server Action·조회 함수), `shared/ui`, `shared/api`, `src/proxy.ts`, `next.config.ts` → `npm run test:e2e` (Playwright, 모바일 360px · PC 1280px 두 프로젝트)
   - 문서·설정만 바뀌었으면 E2E 생략
 - E2E는 개발 서버를 자동으로 띄운다 (`playwright.config.ts`의 `webServer`). 이미 3000번 포트에 서버가 떠 있으면 그 서버를 쓴다
 - E2E가 실패하면 `test-results/`의 trace를 먼저 열어 본다 (`npx playwright show-trace <경로>`)

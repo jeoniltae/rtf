@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { updateSession } from "@/lib/supabase/proxy";
+import { updateSession } from "@/shared/api/index.server";
 
 // staging 보호: PREVIEW_PASSWORD는 Vercel Preview 환경에만 넣는다 (운영은 그대로 통과).
 function checkPreviewAuth(request: NextRequest) {

@@ -42,7 +42,7 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 ### Backend
 
 - Supabase (Postgres + Auth + Storage)
-- ORM 없음 — Supabase JS 클라이언트 직접 사용 (`src/lib/supabase/`)
+- ORM 없음 — Supabase JS 클라이언트 직접 사용 (`src/shared/api/`)
 - API Route 대신 Server Action 사용
 - 콘텐츠 관리(포럼·발제자·인물·사이트 설정·회원 상태)는 **Supabase 대시보드**에서 직접 — 별도 관리자 화면(`/admin`) 없음
 
@@ -79,10 +79,10 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 ```bash
 npm run dev          # 개발 서버
 npm run build        # 프로덕션 빌드
-npm run lint         # ESLint
+npm run lint         # ESLint + Steiger(FSD 규칙)
 npm run typecheck    # 라우트 타입 생성 + tsc
 npm run format       # Prettier (Tailwind 클래스 정렬 포함)
-npm run db:types     # Supabase DB → src/types/database.ts 생성
+npm run db:types     # Supabase DB → src/shared/api/supabase/database.ts 생성
 npm test             # Vitest 단위 테스트
 npm run test:e2e     # Playwright E2E (개발 서버 자동 실행)
 ```
@@ -93,23 +93,29 @@ npm run test:e2e     # Playwright E2E (개발 서버 자동 실행)
 
 ## 프로젝트 구조
 
+**FSD(Feature-Sliced Design) 경량 적용.** Next.js 라우팅 폴더 `src/app`은 그대로 두고, 그 아래 네 레이어만 FSD로 쓴다. FSD의 `app`·`pages` 레이어는 Next.js 폴더 이름과 겹쳐서 두지 않는다.
+
 ```
 src/
-├── app/               # Next.js App Router (페이지 & 레이아웃)
+├── app/               # Next.js 라우팅(page · layout · route) + 전역 스타일 · 폰트. 화면 조립만
 │   └── fonts/         # Pretendard
-├── components/
-│   └── ui/            # shadcn/ui 컴포넌트
-├── lib/
-│   ├── supabase/      # server.ts · client.ts · proxy.ts
-│   └── utils.ts       # cn()
-├── types/             # database.ts (자동 생성)
+├── widgets/           # 화면 블록 — 헤더, 모바일 메뉴, 푸터, 서브 화면 틀, 발제자 팝업 등
+├── features/          # 사용자 행동 — 로그인, 질문 작성, 답변 작성, 자료 등록, 검색 등
+├── entities/          # 도메인 — 포럼 회차, 발제자, 연구자료, 게시글, 답변, 회원, 인물 등
+├── shared/
+│   ├── ui/            # shadcn/ui 컴포넌트
+│   ├── lib/           # cn() 등 공용 함수
+│   └── api/
+│       ├── index.ts         # 브라우저에서도 쓰는 것 (createSupabaseBrowserClient)
+│       ├── index.server.ts  # 서버 전용 (createSupabaseServerClient, updateSession)
+│       └── supabase/        # 클라이언트 구현 · database.ts(자동 생성)
 └── proxy.ts           # 세션 갱신 + staging 보호 (Next.js 16의 middleware)
 e2e/                   # Playwright E2E 테스트
 supabase/              # Supabase CLI 설정 · migrations
 docs/                  # 규칙 · 결정 기록 · 작업 목록
 ```
 
-기능별 폴더 구성(`features/` 등)은 아직 정하지 않았다. 정해지면 이 섹션을 갱신한다.
+`widgets` · `features` · `entities`는 첫 슬라이스를 만들 때 생긴다. 레이어 규칙은 `docs/coding-guidelines.md`의 "폴더 구조 (FSD)"에 있다. `npm run lint`가 Steiger로 FSD 규칙을 검사한다.
 
 ---
 

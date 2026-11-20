@@ -6,7 +6,8 @@
 - `useEffect`로 데이터 페칭 금지 → Server Component 또는 Server Action 사용
 - default export 금지 → Named export 사용 (Next.js가 요구하는 `page`·`layout`·`loading`·`error`·`not-found`·`proxy` 등 규약 파일은 예외)
 - API Route 신규 생성 금지 → Server Action 사용
-- 컴포넌트 안에서 Supabase 클라이언트를 직접 생성 금지 → `@/lib/supabase/server`(서버) 또는 `@/lib/supabase/client`(브라우저)의 `createClient()`를 import해서 사용
+- 컴포넌트 안에서 Supabase 클라이언트를 직접 생성 금지 → 서버는 `@/shared/api/index.server`의 `createSupabaseServerClient()`, 브라우저는 `@/shared/api`의 `createSupabaseBrowserClient()`를 import해서 사용
+- FSD 레이어 규칙 위반 금지 → 아래 레이어만 가져다 쓰고, 같은 레이어의 다른 슬라이스나 슬라이스 내부 파일을 직접 import하지 않는다 (아래 "폴더 구조 (FSD)" 참고)
 - 인라인 스타일 금지 → Tailwind 클래스 사용
 - `console.log` 커밋 금지
 - 요청 범위 밖의 기존 파일 수정 금지 — 지침은 신규 파일 또는 직접 수정 요청된 파일에만 적용
@@ -19,12 +20,31 @@
 2. shadcn/ui 컴포넌트는 **실제로 쓰는 것만 하나씩** 추가한다.
 3. 권한은 화면(버튼 숨김)과 DB(RLS) **양쪽에서** 막는다.
 
+## 폴더 구조 (FSD)
+
+FSD를 경량으로 적용한다. Next.js 라우팅 폴더 `src/app`은 그대로 두고 `widgets` · `features` · `entities` · `shared` 네 레이어만 쓴다. `npm run lint`가 Steiger로 규칙을 검사한다 (`steiger.config.mts`, `src/app` · `src/proxy.ts`는 검사 제외).
+
+| 레이어     | 넣는 것                                                                                                  | rtf 예시                                                                   |
+| ---------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `src/app`  | 라우팅 파일(`page` · `layout` · `route` · `loading` 등), 전역 스타일·폰트. 아래 레이어를 **조립만** 한다 | `app/forum/program/page.tsx`                                               |
+| `widgets`  | 여러 기능·엔티티를 묶은 화면 블록                                                                        | `header`, `mobile-menu`, `footer`, `sub-layout`, `speaker-popup`           |
+| `features` | 사용자가 하는 행동 하나 (폼, 버튼, Server Action)                                                        | `login`, `ask-question`, `answer-question`, `edit-resource`, `site-search` |
+| `entities` | 도메인 데이터와 그 표시 (조회 함수, 타입, 카드 UI)                                                       | `forum`, `speaker`, `resource`, `post`, `answer`, `profile`, `person`      |
+| `shared`   | 도메인을 모르는 공용 코드                                                                                | `ui`(shadcn), `lib`(cn, 날짜 포맷), `api`(Supabase 클라이언트)             |
+
+- **import 방향** — `app` → `widgets` → `features` → `entities` → `shared`. 위 레이어만 아래 레이어를 가져다 쓴다. 같은 레이어의 다른 슬라이스는 가져오지 않는다.
+- **세그먼트** — 슬라이스 안은 목적별 폴더로 나눈다. `ui`(컴포넌트), `model`(타입·zod 스키마·상태), `api`(Supabase 조회·저장 함수, Server Action), `lib`(그 슬라이스 전용 함수), `config`(상수).
+- **공개 진입점** — 슬라이스마다 `index.ts`로 밖에 보일 것만 내보낸다. 다른 곳에서는 `@/entities/speaker`처럼 진입점으로만 import한다.
+- **서버 전용 분리** — Supabase 서버 클라이언트·Server Action처럼 서버에서만 쓰는 것은 `index.server.ts`로 따로 내보낸다. 한 `index.ts`에 섞으면 Client Component가 import할 때 서버 코드가 브라우저 번들로 끌려가 빌드가 깨진다.
+- **엔티티끼리 참조가 필요할 때** — 예를 들어 발제자 카드에 연구자료 정보가 필요하면, 엔티티끼리 import하지 말고 위 레이어(widget·feature)에서 둘을 조합한다. 그래도 필요하면 FSD의 `@x` 표기를 쓰기 전에 먼저 상의한다.
+- **슬라이스를 미리 만들지 않는다** — 빈 폴더나 쓰지 않는 슬라이스를 만들지 않는다. 실제로 쓰는 코드가 생길 때 만든다.
+
 ## 네이밍
 
 - 컴포넌트 파일은 PascalCase (예: `SpeakerCard.tsx`)
 - 일반 파일은 kebab-case (예: `format-date.ts`)
 - 상수는 UPPER_SNAKE_CASE
-- shadcn/ui가 생성한 `src/components/ui/*` 파일은 생성된 이름(kebab-case) 그대로 둔다
+- shadcn/ui가 생성한 `src/shared/ui/*` 파일은 생성된 이름(kebab-case) 그대로 둔다
 
 ## 컴포넌트
 
@@ -34,7 +54,7 @@
 
 ## 스타일링
 
-- Tailwind className 조합 시 `cn()` (`@/lib/utils`) 사용
+- Tailwind className 조합 시 `cn()` 사용 (shadcn 컴포넌트는 `cn` 패키지, 그 밖에는 `@/shared/lib/utils`)
 - 모바일 기본 → `md:` → `lg:` 순서로 작성
 - 모션은 Tailwind transition + `IntersectionObserver`로 만들고, 반드시 `motion-reduce:`로 끌 수 있게 한다
 - 누르는 영역 최소 44×44px, 본문 글자 16px 이상(글 읽기 화면 17px), 명도 대비 4.5:1 이상
@@ -169,8 +189,8 @@ LLM의 흔한 코딩 실수를 줄이기 위한 행동 지침. Andrej Karpathy�
 - TypeScript/JavaScript는 `// 발제자 상세 팝업을 보여주는 컴포넌트` 형식
 - SQL은 `-- 포럼 회차 정보를 저장하는 테이블` 형식
 - 필수 디렉티브(`'use client'`, `'use server'`) 바로 아래에 위치시킨다.
-- 설정 파일(`*.config.ts`, `package.json` 등)과 shadcn/ui CLI가 생성한 `src/components/ui/*` 파일은 생략한다.
-- 이 규칙을 정하기 전에 만든 파일(`src/lib/supabase/*`, `src/proxy.ts` 등)에는 소급 적용하지 않는다.
+- 설정 파일(`*.config.ts`, `package.json` 등)과 shadcn/ui CLI가 생성한 `src/shared/ui/*` 파일은 생략한다.
+- 이 규칙을 정하기 전에 만든 파일(`src/shared/api/supabase/*`, `src/proxy.ts` 등)에는 소급 적용하지 않는다.
 
 이유는 이렇다. 에이전트는 전체 코드베이스가 아닌 파일 단위로 선택적으로 읽는다. 한 줄짜리 한국어 헤더가 있으면 다음 세션(사람이든 에이전트든)이 전체 파일을 다시 읽지 않아도 즉시 맥락을 파악할 수 있다.
 
