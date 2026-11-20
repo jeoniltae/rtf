@@ -2,6 +2,17 @@
 
 결정한 내용과 이유를 최신순으로 남긴다. 기획 단계 결정은 노션 화면설계서 11장 · 기술 스택 문서를 따른다.
 
+## 2026-11-20 — 테스트 도구 도입 (Vitest + Playwright)
+
+- 단위 테스트는 Vitest, E2E는 Playwright. feature-workflow VERIFY에서 바뀐 파일에 따라 골라 실행한다 — 전역 스킬은 고치지 않고 `.claude/feature-workflow.md`의 VERIFY · BUILD 섹션에만 조건을 적었다. 다른 프로젝트에서도 같은 패턴이 반복되면 전역 스킬로 옮긴다
+- `npm test`는 Vitest. 스킬의 `test: auto`가 `test` 스크립트를 자동으로 찾기 때문에 빠른 Vitest를 두고, 느린 E2E는 `test:e2e`로 분리
+- Vitest 5는 Node 22.12 이상이 필요해 **Vitest 4.1**을 쓴다 (프로젝트는 Node 20.9 이상 지원). Node 22 이상으로 올리면 Vitest 5로 바꿀 수 있다
+- `passWithNoTests` — 단위 테스트가 아직 없어도 `npm test`가 실패하지 않게
+- Playwright 1.65.1 → Chromium 1255를 새로 받음. 브라우저 캐시(`%LOCALAPPDATA%\ms-playwright`)는 다른 프로젝트와 공유
+- Playwright는 Chromium만, 모바일 360px · PC 1280px 두 프로젝트. 개발 서버는 `webServer`로 자동 실행
+- BUILD에서 `test-driven-development`는 `src/lib/` 로직에만 적용. 화면은 기능 단위로 E2E를 쓴다 — 매 작업마다 E2E를 먼저 쓰면 너무 무거움
+- 로그인 E2E는 테스트용 Supabase와 테스트 계정 준비 뒤로 미룬다
+
 ## 2026-11-17 — feature-workflow 도입
 
 - 새 기능은 전역 스킬 `/feature-workflow`로 진행. 설정은 `.claude/feature-workflow.md`

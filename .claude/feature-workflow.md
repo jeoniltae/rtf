@@ -1,7 +1,7 @@
 ---
 plans_dir: docs/plans
 design: existing # 브랜드 컬러·디자인 시안 전까지 shadcn 기본 토큰을 따른다
-test: auto # 테스트 러너 없음 → lint · typecheck · build + 브라우저 확인
+test: auto # npm test(Vitest) · lint · typecheck · build 자동 감지. E2E(Playwright)는 아래 VERIFY 조건으로 실행
 base_branch: main # staging 브랜치를 만든 뒤 staging으로 바꾼다
 ---
 
@@ -31,8 +31,19 @@ base_branch: main # staging 브랜치를 만든 뒤 staging으로 바꾼다
 - Next.js 16 API는 `node_modules/next/dist/docs/`에서 확인한 뒤 쓴다
 - shadcn/ui 컴포넌트가 필요하면 `npx shadcn@latest add <이름>`으로 그 컴포넌트만 추가한다
 - 예시 데이터에는 더미 값만 쓴다 (홍길동, 010-0000-0000, test@example.com)
+- 테스트 작성 범위 (`test-driven-development` 적용 범위를 이렇게 좁힌다)
+  - 순수 함수·zod 스키마·날짜 포맷 등 `src/lib/` 로직 → Vitest로 테스트를 먼저 쓴다 (`src/**/*.test.ts`, 대상 파일 옆에 둔다)
+  - 화면·컴포넌트·Server Action → 작업마다 테스트를 먼저 쓰지 않는다. 기능 단위로 spec의 사용자 시나리오를 `e2e/<기능>.spec.ts`에 Playwright로 작성한다 (BUILD 마지막 작업으로 넣는다)
 
 ## VERIFY
+
+- 이 기능에서 바뀐 파일(미커밋 변경 + 기능 진행 중 커밋했다면 그 커밋)을 보고 테스트를 고른다. 고른 이유와 결과를 종료 보고에 적는다
+  - `src/lib/`, zod 스키마, 유틸 함수 → `npm test` (Vitest — `test: auto`로 매번 자동 실행됨)
+  - 페이지·컴포넌트·레이아웃·Server Action·`src/proxy.ts`·`next.config.ts` → `npm run test:e2e` (Playwright, 모바일 360px · PC 1280px 두 프로젝트)
+  - 문서·설정만 바뀌었으면 E2E 생략
+- E2E는 개발 서버를 자동으로 띄운다 (`playwright.config.ts`의 `webServer`). 이미 3000번 포트에 서버가 떠 있으면 그 서버를 쓴다
+- E2E가 실패하면 `test-results/`의 trace를 먼저 열어 본다 (`npx playwright show-trace <경로>`)
+- 로그인이 필요한 E2E는 테스트용 Supabase와 테스트 계정이 준비되기 전까지 작성하지 않는다. 그동안은 아래 항목을 `agent-browser`로 직접 확인한다
 
 - 화면을 건드렸으면 360px 모바일과 1024px 이상 PC 두 폭으로 확인한다
 - 권한이 갈리는 기능이면 비회원 · 가입자 · 관리자 세 상태로 각각 확인한다. 관리자 전용 화면은 권한 없이 들어가면 404인지 확인한다

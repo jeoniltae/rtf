@@ -4,3 +4,5 @@ package-lock.json
 supabase/.temp
 src/types/database.ts
 AGENTS.md
+test-results
+playwright-report

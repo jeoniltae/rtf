@@ -36,7 +36,8 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - 에디터: Tiptap (MIT 오픈소스 확장만, Pro 확장 금지)
 - 입력값 검사: zod — 화면과 서버가 같은 스키마 공유
 - 폰트: Pretendard (`next/font/local`, `src/app/fonts/`)
-- Testing: 없음 (도입 여부 미정)
+- Testing: Vitest 4 (단위 — `src/**/*.test.ts`) + Playwright (E2E — `e2e/`, 모바일 360px · PC 1280px)
+  - Vitest 5는 Node 22.12 이상이 필요해 Node 20 지원을 유지하려고 4를 쓴다
 
 ### Backend
 
@@ -82,9 +83,11 @@ npm run lint         # ESLint
 npm run typecheck    # 라우트 타입 생성 + tsc
 npm run format       # Prettier (Tailwind 클래스 정렬 포함)
 npm run db:types     # Supabase DB → src/types/database.ts 생성
+npm test             # Vitest 단위 테스트
+npm run test:e2e     # Playwright E2E (개발 서버 자동 실행)
 ```
 
-작업을 마치면 `lint`, `typecheck`, `build`를 통과시킨다.
+작업을 마치면 `test`, `lint`, `typecheck`, `build`를 통과시킨다. 화면·컴포넌트·Server Action·proxy를 바꿨으면 `test:e2e`도 통과시킨다.
 
 ---
 
@@ -101,6 +104,7 @@ src/
 │   └── utils.ts       # cn()
 ├── types/             # database.ts (자동 생성)
 └── proxy.ts           # 세션 갱신 + staging 보호 (Next.js 16의 middleware)
+e2e/                   # Playwright E2E 테스트
 supabase/              # Supabase CLI 설정 · migrations
 docs/                  # 규칙 · 결정 기록 · 작업 목록
 ```

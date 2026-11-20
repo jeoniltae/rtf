@@ -22,6 +22,10 @@ npm run dev                  # http://localhost:3000
 | `npm run typecheck` | 라우트 타입 생성 + TypeScript 검사                    |
 | `npm run format`    | Prettier 정리 (Tailwind 클래스 정렬 포함)             |
 | `npm run db:types`  | 연결된 Supabase 스키마로 `src/types/database.ts` 생성 |
+| `npm test`          | Vitest 단위 테스트                                    |
+| `npm run test:e2e`  | Playwright E2E (개발 서버 자동 실행)                  |
+
+Playwright 브라우저가 없으면 처음 한 번 `npx playwright install chromium`을 실행한다.
 
 ## shadcn/ui 컴포넌트 추가
 
