@@ -92,8 +92,6 @@ FSD를 경량으로 적용한다. Next.js 라우팅 폴더 `src/app`은 그대�
 | ------------------------------------- | ----------------------------------------- |
 | 상태 관리 (Zustand, Redux 등)         | `useState` + URL 검색 파라미터            |
 | 서버 상태 (React Query, SWR)          | Server Components + Cache Components      |
-| 애니메이션 (Framer Motion 등)         | Tailwind transition                       |
-| 슬라이더 (Swiper 등)                  | CSS `scroll-snap`                         |
 | 날짜 (dayjs, date-fns 등)             | `Intl.DateTimeFormat`                     |
 | 지도 SDK                              | 네이버·카카오 지도 앱 링크                |
 | HTML 정화 라이브러리                  | Tiptap JSON → 허용한 확장으로만 HTML 생성 |
