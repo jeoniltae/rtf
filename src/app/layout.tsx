@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | 개혁신학포럼",
   },
   description:
-    "종교개혁의 전통을 계승하는 개혁주의 신학을 연구하고 현대 교회에 바르게 적용하는 연구 공동체, 개혁신학포럼(RTF)",
+    "종교개혁의 전통을 계승하는 개혁파 신학을 연구하고 현대 교회에 바르게 적용하는 연구 공동체, 개혁신학포럼(RTF)",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
