@@ -44,8 +44,8 @@
 
 ### 3단계: 마무리
 
-- [ ] 작업 6: E2E `e2e/coming-soon.spec.ts`
-- [ ] 작업 7: 문서 — `.env.example`, `AGENTS.md`
+- [x] 작업 6: E2E `e2e/coming-soon.spec.ts`
+- [x] 작업 7: 문서 — `.env.example`, `AGENTS.md`
 
 ### 체크포인트: 완료
 
@@ -167,9 +167,9 @@
 
 **완료 기준:**
 
-- [ ] 제목 · 소개 표 · 버튼 링크 속성(`href`, `target`, `rel`) · canonical `/` 검사
-- [ ] `emulateMedia({ reducedMotion: "reduce" })`에서 애니메이션 없음, PC에서 표어 hover 시 한글 보임
-- [ ] 기존 `e2e/home.spec.ts`도 그대로 통과 (`/`는 rewrite 안 됨)
+- [x] 제목 · 소개 표 · 버튼 링크 속성(`href`, `target`, `rel`) · canonical `/` 검사
+- [x] `emulateMedia({ reducedMotion: "reduce" })`에서 애니메이션 없음, PC에서 표어 hover 시 한글 보임
+- [x] 기존 `e2e/home.spec.ts`도 그대로 통과 (`/`는 rewrite 안 됨)
 
 **검증:**
 
@@ -187,8 +187,8 @@
 
 **완료 기준:**
 
-- [ ] 두 문서가 실제 코드 동작과 같음
-- [ ] 한국어 문장이 콜론으로 끝나지 않음
+- [x] 두 문서가 실제 코드 동작과 같음
+- [x] 한국어 문장이 콜론으로 끝나지 않음
 
 **검증:**
 

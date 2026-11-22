@@ -68,7 +68,9 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - 배포: Vercel
   - `main` → rtf.or.kr (오픈 전에는 '준비 중' 화면)
   - `staging` → staging.rtf.or.kr (목사님 확인용)
-- staging 보호: `src/proxy.ts`가 `PREVIEW_PASSWORD`가 있을 때만 Basic Auth + `X-Robots-Tag: noindex` 적용. 이 변수는 **Vercel Preview 환경에만** 넣는다.
+- staging 보호: `src/proxy.ts`가 `PREVIEW_PASSWORD`가 있을 때만 Basic Auth 적용. 이 변수는 **Vercel Preview 환경에만** 넣는다.
+- staging 검색 제외: `VERCEL_ENV === "preview"`이면 `X-Robots-Tag: noindex, nofollow` (비밀번호 유무와 상관없음)
+- 준비 중 화면: `SITE_COMING_SOON=true`(**Vercel Production 환경에만**)이면 `src/proxy.ts`가 확장자 없는 모든 주소를 `/coming-soon`으로 rewrite한다(주소 유지, 200). 오픈 날 이 값을 지우고 재배포한다. 운영에는 `NEXT_PUBLIC_SITE_URL=https://rtf.or.kr`도 넣어야 canonical이 맞다
 - 환경변수: `.env.example` 참고. 로컬은 `.env.local`, 배포는 Vercel Dashboard
 - Node.js 20.9 이상 (로컬과 Vercel 설정을 맞춘다)
 
@@ -98,18 +100,21 @@ npm run test:e2e     # Playwright E2E (개발 서버 자동 실행)
 ```
 src/
 ├── app/               # Next.js 라우팅(page · layout · route) + 전역 스타일 · 폰트. 화면 조립만
-│   └── fonts/         # Pretendard
+│   ├── fonts/         # Pretendard
+│   └── coming-soon/   # 오픈 전 준비 중 화면 (ERR-01)
 ├── widgets/           # 화면 블록 — 헤더, 모바일 메뉴, 푸터, 서브 화면 틀, 발제자 팝업 등
+│   └── coming-soon/   # 준비 중 화면 블록
 ├── features/          # 사용자 행동 — 로그인, 질문 작성, 답변 작성, 자료 등록, 검색 등
 ├── entities/          # 도메인 — 포럼 회차, 발제자, 연구자료, 게시글, 답변, 회원, 인물 등
 ├── shared/
 │   ├── ui/            # shadcn/ui 컴포넌트
-│   ├── lib/           # cn() 등 공용 함수
+│   ├── config/        # 기관명 · 주소 · 전화 · 밴드 주소 등 사이트 상수
+│   ├── lib/           # cn(), 준비 중 rewrite 판단 등 공용 함수
 │   └── api/
 │       ├── index.ts         # 브라우저에서도 쓰는 것 (createSupabaseBrowserClient)
 │       ├── index.server.ts  # 서버 전용 (createSupabaseServerClient, updateSession)
 │       └── supabase/        # 클라이언트 구현 · database.ts(자동 생성)
-└── proxy.ts           # 세션 갱신 + staging 보호 (Next.js 16의 middleware)
+└── proxy.ts           # 세션 갱신 + staging 보호 · 검색 제외 + 준비 중 rewrite (Next.js 16의 middleware)
 e2e/                   # Playwright E2E 테스트
 supabase/              # Supabase CLI 설정 · migrations
 docs/                  # 규칙 · 결정 기록 · 작업 목록
