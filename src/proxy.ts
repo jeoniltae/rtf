@@ -46,7 +46,8 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
+  // _vercel: Vercel Analytics 수집 경로 — 준비 중 rewrite · 세션 갱신 대상에서 뺀다
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|woff2)$).*)",
+    "/((?!_next/static|_next/image|_vercel|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|woff2)$).*)",
   ],
 };
