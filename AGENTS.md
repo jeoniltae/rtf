@@ -37,7 +37,7 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - 입력값 검사: zod — 화면과 서버가 같은 스키마 공유
 - 폰트: Pretendard (`next/font/local`, `src/app/fonts/`)
 - Testing: Vitest 4 (단위 — `src/**/*.test.ts`) + Playwright (E2E — `e2e/`, 모바일 360px · PC 1280px)
-  - Vitest 5는 Node 22.12 이상이 필요해 Node 20 지원을 유지하려고 4를 쓴다
+  - Vitest 5는 Node 22.12 이상이 필요해 처음에 4로 시작했다. Node 24로 고정했으니 필요할 때 5로 올릴 수 있다
 
 ### Backend
 
@@ -72,7 +72,7 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - staging 검색 제외: `VERCEL_ENV === "preview"`이면 `X-Robots-Tag: noindex, nofollow` (비밀번호 유무와 상관없음)
 - 준비 중 화면: `SITE_COMING_SOON=true`(**Vercel Production 환경에만**)이면 `src/proxy.ts`가 확장자 없는 모든 주소를 `/coming-soon`으로 rewrite한다(주소 유지, 200). 오픈 날 이 값을 지우고 재배포한다. 운영에는 `NEXT_PUBLIC_SITE_URL=https://rtf.or.kr`도 넣어야 canonical이 맞다
 - 환경변수: `.env.example` 참고. 로컬은 `.env.local`, 배포는 Vercel Dashboard
-- Node.js 20.9 이상 (로컬과 Vercel 설정을 맞춘다)
+- Node.js 24.x — `package.json` `engines`로 고정. Vercel 대시보드 Node.js Version도 24.x로 맞춘다
 
 ---
 
