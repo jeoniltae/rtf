@@ -5,6 +5,10 @@ import { defineConfig } from "steiger";
 export default defineConfig([
   ...fsd.configs.recommended,
   {
+    // 화면 조립은 검사에서 빠진 src/app이 맡아서, 위젯·기능을 참조하는 곳이 없다고 잘못 나온다
+    rules: { "fsd/insignificant-slice": "off" },
+  },
+  {
     ignores: [
       "./src/app/**",
       "./src/proxy.ts",

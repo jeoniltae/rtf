@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/shared/api/index.server";
+import {
+  COMING_SOON_PATH,
+  shouldShowComingSoon,
+} from "@/shared/lib/coming-soon";
 
 // staging 보호: PREVIEW_PASSWORD는 Vercel Preview 환경에만 넣는다 (운영은 그대로 통과).
 function checkPreviewAuth(request: NextRequest) {
@@ -22,8 +26,16 @@ export async function proxy(request: NextRequest) {
   const denied = checkPreviewAuth(request);
   if (denied) return denied;
 
-  const response = await updateSession(request);
-  if (process.env.PREVIEW_PASSWORD) {
+  // 오픈 전: SITE_COMING_SOON=true(운영에만 설정)이면 주소는 그대로 두고 준비 중 화면을 보여 준다.
+  const response = shouldShowComingSoon(
+    request.nextUrl.pathname,
+    process.env.SITE_COMING_SOON,
+  )
+    ? NextResponse.rewrite(new URL(COMING_SOON_PATH, request.url))
+    : await updateSession(request);
+
+  // staging(Vercel Preview)은 비밀번호 유무와 상관없이 검색에서 제외한다.
+  if (process.env.VERCEL_ENV === "preview") {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
   return response;
