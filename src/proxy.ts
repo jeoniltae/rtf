@@ -12,8 +12,12 @@ function checkPreviewAuth(request: NextRequest) {
 
   const auth = request.headers.get("authorization");
   if (auth?.startsWith("Basic ")) {
-    const decoded = atob(auth.slice(6)); // "아이디:비밀번호" — 아이디는 무엇이든 허용
-    if (decoded.slice(decoded.indexOf(":") + 1) === password) return null;
+    try {
+      const decoded = atob(auth.slice(6)); // "아이디:비밀번호" — 아이디는 무엇이든 허용
+      if (decoded.slice(decoded.indexOf(":") + 1) === password) return null;
+    } catch {
+      // base64가 아닌 헤더는 500 대신 401로 처리한다
+    }
   }
 
   return new NextResponse("인증이 필요합니다.", {

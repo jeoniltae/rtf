@@ -1,6 +1,7 @@
 // 오픈 전 준비 중 화면 블록(ERR-01, 시안 C) — 클라이언트 JS 없이 CSS 모션만 쓴다
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { cn } from "@/shared/lib/utils";
 import {
   BAND_URL,
   FOUNDED_LABEL,
@@ -79,7 +80,10 @@ export function ComingSoon() {
               href={BAND_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${BUTTON_BASE} bg-rtf-accent bg-linear-to-r from-black/28 to-black/28 text-white`}
+              className={cn(
+                BUTTON_BASE,
+                "bg-rtf-accent bg-linear-to-r from-black/28 to-black/28 text-white",
+              )}
             >
               네이버 밴드에서 소식 보기
               <svg
@@ -94,7 +98,10 @@ export function ComingSoon() {
             </a>
             <a
               href={PHONE.href}
-              className={`${BUTTON_BASE} border border-neutral-900 bg-linear-to-r from-neutral-100 to-neutral-100 text-neutral-900`}
+              className={cn(
+                BUTTON_BASE,
+                "border border-neutral-900 bg-linear-to-r from-neutral-100 to-neutral-100 text-neutral-900",
+              )}
             >
               전화 문의
             </a>
