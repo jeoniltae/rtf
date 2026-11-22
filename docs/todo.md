@@ -19,8 +19,9 @@
 - [x] 개발 환경 초기 세팅 (2026-11-16)
 - [ ] Supabase 프로젝트 생성 → `.env.local` 작성, `supabase link`
 - [ ] Vercel 프로젝트 연결, Node.js 버전 맞추기, Vercel Authentication 끄기
-- [ ] `staging` 브랜치 생성 + staging.rtf.or.kr 연결, Preview 환경에 `PREVIEW_PASSWORD`
-- [ ] rtf.or.kr DNS 연결 (등록업체 계정 권한 받기) + '준비 중' 화면
+- [ ] `staging` 브랜치 생성 + staging.rtf.or.kr 연결
+  - `PREVIEW_PASSWORD`(비밀번호 보호)는 처음엔 넣지 않고, 로그인 · 가입 기능을 staging에 올릴 때 넣는다
+- [ ] rtf.or.kr DNS 연결 (등록업체 계정 권한 받기) + '준비 중' 화면 → docs/plans/2026-11-22-coming-soon/
 - [ ] 운영용 외부 SMTP (대표 이메일 확정 후)
 
 ## 1차 개발
