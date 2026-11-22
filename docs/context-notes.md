@@ -2,6 +2,14 @@
 
 결정한 내용과 이유를 최신순으로 남긴다. 기획 단계 결정은 노션 화면설계서 11장 · 기술 스택 문서를 따른다.
 
+## 2026-11-22 — 준비 중 화면 스위치 · staging 검색 제외 기준
+
+- 오픈 전 화면은 `page.tsx`를 바꾸지 않고 환경변수 `SITE_COMING_SOON=true`(Vercel 운영에만)로 `proxy.ts`가 rewrite한다. `main` · `staging`이 같은 파일로 부딪히지 않고, 오픈 날 값만 지우고 재배포하면 된다. 운영 빌드에서 실행 시점의 값을 읽는 것을 확인함
+- 상세 주소도 `/`로 redirect하지 않고 주소를 유지한 채 rewrite(200) — 책자 등에 적힌 주소가 홈으로 튕기지 않게. 503은 오래 두면 검색에서 빠질 수 있어 쓰지 않음
+- staging 검색 제외(`X-Robots-Tag: noindex`)는 `PREVIEW_PASSWORD` 유무가 아니라 `VERCEL_ENV === "preview"`로 판단 — staging을 비밀번호 없이 시작하기로 해서
+- 기관명 · 주소 · 전화 · 밴드 주소는 `shared/config/site.ts` 상수로 모았다. 푸터 · 오시는 길(ABT-05)에서 같이 쓴다
+- 앞으로 인증 콜백 같은 경로를 만들면 스위치가 켜진 동안 같이 rewrite된다. 인증 기능 spec에서 다룬다
+
 ## 2026-11-22 — Steiger `fsd/insignificant-slice` 끔
 
 - 화면 조립을 맡는 `src/app`이 Steiger 검사에서 빠져 있어, `src/app`에서만 쓰는 위젯·기능이 "참조하는 곳 없음"으로 잘못 걸린다 (준비 중 화면 `widgets/coming-soon`에서 처음 발견). B안 구조상 앞으로 만드는 슬라이스 대부분이 같아서 슬라이스별 예외 대신 규칙을 끈다. import 방향 · 공개 진입점 규칙은 그대로 검사한다
