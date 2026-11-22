@@ -18,11 +18,13 @@
 
 - [x] 개발 환경 초기 세팅 (2026-11-16)
 - [ ] Supabase 프로젝트 생성 → `.env.local` 작성, `supabase link`
-- [ ] Vercel 프로젝트 연결, Node.js 버전 맞추기, Vercel Authentication 끄기
+- [x] Vercel 프로젝트 연결, Node.js 버전 맞추기(24.x), Vercel Authentication 끄기 (2026-11-22)
 - [ ] `staging` 브랜치 생성 + staging.rtf.or.kr 연결
   - `PREVIEW_PASSWORD`(비밀번호 보호)는 처음엔 넣지 않고, 로그인 · 가입 기능을 staging에 올릴 때 넣는다
-- [ ] rtf.or.kr DNS 연결 (등록업체 계정 권한 받기)
-  - Vercel 운영 환경에 `SITE_COMING_SOON=true`, `NEXT_PUBLIC_SITE_URL=https://rtf.or.kr` 넣기
+- [x] rtf.or.kr DNS 연결 (2026-11-22)
+  - 카페24 A 레코드를 Vercel로 변경. www는 카페24 기본 별칭이 따라와 `rtf.or.kr`로 308 리다이렉트
+  - Vercel 운영 환경에 `SITE_COMING_SOON=true`, `NEXT_PUBLIC_SITE_URL=https://rtf.or.kr` 설정 완료
+- [ ] 오픈 날: Vercel 운영의 `SITE_COMING_SOON` 삭제 후 재배포
 - [x] '준비 중' 화면 (ERR-01) → docs/plans/2026-11-22-coming-soon/ (2026-11-22)
 - [ ] 운영용 외부 SMTP (대표 이메일 확정 후)
 
