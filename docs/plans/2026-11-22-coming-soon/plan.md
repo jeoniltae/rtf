@@ -1,7 +1,7 @@
 # 구현 계획: 준비 중 화면 (ERR-01)
 
 - spec: ./spec.md
-- 상태: 진행 중
+- 상태: 검증 완료
 
 ## 개요
 
@@ -28,8 +28,8 @@
 
 ### 체크포인트: 켜고 끄기
 
-- [ ] `npm test`, `npm run lint`, `npm run typecheck` 통과
-- [ ] 환경변수를 켠 개발 서버에서 상세 주소가 준비 중 화면으로 rewrite됨 (curl)
+- [x] `npm test`, `npm run lint`, `npm run typecheck` 통과
+- [x] 환경변수를 켠 개발 서버에서 상세 주소가 준비 중 화면으로 rewrite됨 (curl)
 
 ### 2단계: 화면
 
@@ -39,8 +39,8 @@
 
 ### 체크포인트: 화면
 
-- [ ] 360px · 1280px에서 시안 C와 같은 구성
-- [ ] '동작 줄이기'에서 아무것도 움직이지 않음
+- [x] 360px · 1280px에서 시안 C와 같은 구성
+- [x] '동작 줄이기'에서 아무것도 움직이지 않음
 
 ### 3단계: 마무리
 
@@ -49,9 +49,9 @@
 
 ### 체크포인트: 완료
 
-- [ ] spec 성공 기준 6개 충족
-- [ ] `npm test` · `lint` · `typecheck` · `build` · `test:e2e` 통과
-- [ ] REVIEW 준비됨
+- [x] spec 성공 기준 6개 충족
+- [x] `npm test` · `lint` · `typecheck` · `build` · `test:e2e` 통과
+- [x] REVIEW 준비됨
 
 ## 작업 상세
 
@@ -66,8 +66,8 @@
 
 **검증:**
 
-- [ ] `npm test`
-- [ ] 수동 확인: 테스트가 구현 전에 실패하는 것을 먼저 봄
+- [x] `npm test`
+- [x] 수동 확인: 테스트가 구현 전에 실패하는 것을 먼저 봄
 
 **의존:** 없음
 
@@ -87,8 +87,8 @@
 
 **검증:**
 
-- [ ] `npm run lint`, `npm run typecheck`
-- [ ] 수동 확인: `$env:SITE_COMING_SOON='true'; npx next dev -p 3001` 뒤 `curl -i` 로 `/`, `/research/papers`, `/robots.txt`, `/coming-soon` 확인. `$env:VERCEL_ENV='preview'`로 다시 띄워 헤더 확인
+- [x] `npm run lint`, `npm run typecheck`
+- [x] 수동 확인: `$env:SITE_COMING_SOON='true'; npx next dev -p 3001` 뒤 `curl -i` 로 `/`, `/research/papers`, `/robots.txt`, `/coming-soon` 확인. `$env:VERCEL_ENV='preview'`로 다시 띄워 헤더 확인 — VERIFY에서 운영 빌드(`next start`)로도 다시 확인
 
 **의존:** 작업 1
 
@@ -107,7 +107,7 @@
 
 **검증:**
 
-- [ ] `npm run lint` (Steiger 공개 진입점 경고 없음), `npm run typecheck`
+- [x] `npm run lint` (Steiger 공개 진입점 경고 없음), `npm run typecheck`
 
 **의존:** 없음
 
@@ -127,8 +127,8 @@
 
 **검증:**
 
-- [ ] `npm run lint`, `npm run typecheck`
-- [ ] 수동 확인: `agent-browser`로 360px · 1280px 스크린샷을 시안 C와 비교
+- [x] `npm run lint`, `npm run typecheck`
+- [x] 수동 확인: `agent-browser`로 360px · 1280px 스크린샷을 시안 C와 비교 — agent-browser 대신 Playwright 스크립트로 캡처 · 측정
 
 **의존:** 작업 2, 3
 
@@ -150,8 +150,8 @@
 
 **검증:**
 
-- [ ] `npm run build`
-- [ ] 수동 확인: `agent-browser`로 일반 · reduced-motion 두 상태 확인
+- [x] `npm run build`
+- [x] 수동 확인: `agent-browser`로 일반 · reduced-motion 두 상태 확인 — agent-browser 대신 Playwright 스크립트(emulateMedia)로 확인
 
 **의존:** 작업 4
 
@@ -173,7 +173,7 @@
 
 **검증:**
 
-- [ ] `npm run test:e2e` (모바일 360px · PC 1280px)
+- [x] `npm run test:e2e` (모바일 360px · PC 1280px)
 
 **의존:** 작업 5
 
@@ -192,8 +192,8 @@
 
 **검증:**
 
-- [ ] `npm run format:check`
-- [ ] 수동 확인: AGENTS.md 끝의 Next.js 블록이 그대로 있음
+- [x] `npm run format:check`
+- [x] 수동 확인: AGENTS.md 끝의 Next.js 블록이 그대로 있음
 
 **의존:** 작업 2
 
