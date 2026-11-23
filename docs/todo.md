@@ -41,6 +41,8 @@
 - [ ] 통합검색 (SRCH-01, `pg_trgm`)
 - [ ] 오류 · 약관 화면 (ERR-01, POL-01)
 - [ ] SEO: metadata, sitemap, robots, OG
+  - robots.txt · sitemap.xml 기본은 추가함(홈만). 공개 화면을 만들 때마다 `src/app/sitemap.ts`에 넣는다
+  - 검색 등록: 구글은 카페24 TXT, 네이버는 `layout.tsx` 메타 태그로 소유 확인 (둘 다 지우지 않는다)
 - [ ] Tiptap에 HWP · 워드 문서 붙여넣기 시험
 - [ ] 지난 포럼(1~27차) 초기 데이터 입력
 

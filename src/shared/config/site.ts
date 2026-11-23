@@ -7,3 +7,5 @@ export const SECRETARY_GENERAL = "공성권";
 export const OFFICE_ADDRESS = "서울 은평구 진관3로 22 이로운프라자 601호";
 export const PHONE = { label: "02-941-2019", href: "tel:029412019" } as const;
 export const BAND_URL = "https://band.us/band/57603243";
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
