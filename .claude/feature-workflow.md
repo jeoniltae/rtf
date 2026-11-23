@@ -2,7 +2,7 @@
 plans_dir: docs/plans
 design: existing # 브랜드 컬러·디자인 시안 전까지 shadcn 기본 토큰을 따른다
 test: auto # npm test(Vitest) · lint · typecheck · build 자동 감지. E2E(Playwright)는 아래 VERIFY 조건으로 실행
-base_branch: main # stg 브랜치를 만든 뒤 stg로 바꾼다
+base_branch: stg # 개발은 stg에서 하고, 오픈 당일 stg를 main에 합친다
 ---
 
 # feature-workflow 프로젝트 설정
