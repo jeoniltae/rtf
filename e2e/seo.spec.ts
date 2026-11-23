@@ -21,3 +21,18 @@ test("sitemap.xml에 홈이 있고 준비 중 화면은 없다", async ({ reques
   expect(body).toMatch(/<loc>https?:\/\/[^/]+\/<\/loc>/);
   expect(body).not.toContain("coming-soon");
 });
+
+test("파비콘과 홈 화면 아이콘이 열린다", async ({ page, request }) => {
+  await page.goto("/");
+
+  for (const selector of [
+    'link[rel="icon"][href*="favicon.ico"]',
+    'link[rel="icon"][href*="icon.png"]',
+    'link[rel="apple-touch-icon"]',
+  ]) {
+    const href = await page.locator(selector).getAttribute("href");
+    const response = await request.get(href!);
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/");
+  }
+});
