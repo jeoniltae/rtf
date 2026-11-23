@@ -20,6 +20,12 @@ export const metadata: Metadata = {
   },
   description:
     "종교개혁의 전통을 계승하는 개혁파 신학을 연구하고 현대 교회에 바르게 적용하는 연구 공동체, 개혁신학포럼(RTF)",
+  // 네이버 서치어드바이저 소유 확인 — 지우면 확인이 풀린다
+  verification: {
+    other: {
+      "naver-site-verification": "05ac01b82aa10caaccb3b355fc78fdd1f5512469",
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
