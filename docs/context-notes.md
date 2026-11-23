@@ -2,6 +2,11 @@
 
 결정한 내용과 이유를 최신순으로 남긴다. 기획 단계 결정은 노션 화면설계서 11장 · 기술 스택 문서를 따른다.
 
+## 2026-11-23 — 확인용 브랜치 · 주소 이름을 `stg`로
+
+- 확인용 브랜치를 `staging`에서 `stg`로, 주소를 `staging.rtf.or.kr`에서 `stg.rtf.or.kr`로 정했다. 문서의 "staging"은 환경(Vercel Preview)을 부르는 말로 계속 쓴다
+- 이 날짜 이전 기록과 완료된 plan에 나오는 `staging` 브랜치와 주소는 `stg`로 읽는다 (feature-workflow의 `base_branch`도 브랜치를 만든 뒤 `stg`로 바꾼다)
+
 ## 2026-11-22 — Node.js 24.x 고정
 
 - `package.json` `engines.node`를 `>=20.9.0`에서 `24.x`로 바꿨다. 범위로 열어 두면 Vercel이 `engines`를 대시보드 설정보다 우선해 버전을 스스로 골라, 대시보드(24.x)와 어긋난다는 경고가 계속 떴다. 로컬도 Node 24라 맞춤

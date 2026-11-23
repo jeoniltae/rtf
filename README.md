@@ -63,5 +63,5 @@ supabase/           Supabase CLI 설정 · 마이그레이션
 
 ## 배포
 
-- `main` → rtf.or.kr / `staging` → staging.rtf.or.kr
-- staging은 Vercel Preview 환경에 `PREVIEW_PASSWORD`를 넣으면 Basic Auth + `X-Robots-Tag: noindex`가 적용됩니다.
+- `main` → rtf.or.kr / `stg` → stg.rtf.or.kr
+- staging(Vercel Preview)에는 `X-Robots-Tag: noindex, nofollow`가 항상 붙고, `PREVIEW_PASSWORD`를 넣으면 Basic Auth도 적용됩니다.

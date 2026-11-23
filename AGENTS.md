@@ -67,7 +67,7 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - 소스 관리: GitHub
 - 배포: Vercel
   - `main` → rtf.or.kr (오픈 전에는 '준비 중' 화면)
-  - `staging` → staging.rtf.or.kr (목사님 확인용)
+  - `stg` → stg.rtf.or.kr (목사님 확인용)
 - staging 보호: `src/proxy.ts`가 `PREVIEW_PASSWORD`가 있을 때만 Basic Auth 적용. 이 변수는 **Vercel Preview 환경에만** 넣는다.
 - staging 검색 제외: `VERCEL_ENV === "preview"`이면 `X-Robots-Tag: noindex, nofollow` (비밀번호 유무와 상관없음)
 - 준비 중 화면: `SITE_COMING_SOON=true`(**Vercel Production 환경에만**)이면 `src/proxy.ts`가 확장자 없는 모든 주소를 `/coming-soon`으로 rewrite한다(주소 유지, 200). 오픈 날 이 값을 지우고 재배포한다. 운영에는 `NEXT_PUBLIC_SITE_URL=https://rtf.or.kr`도 넣어야 canonical이 맞다

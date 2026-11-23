@@ -19,7 +19,7 @@
 - [x] 개발 환경 초기 세팅 (2026-11-16)
 - [ ] Supabase 프로젝트 생성 → `.env.local` 작성, `supabase link`
 - [x] Vercel 프로젝트 연결, Node.js 버전 맞추기(24.x), Vercel Authentication 끄기 (2026-11-22)
-- [ ] `staging` 브랜치 생성 + staging.rtf.or.kr 연결
+- [ ] `stg` 브랜치 생성 + stg.rtf.or.kr 연결
   - `PREVIEW_PASSWORD`(비밀번호 보호)는 처음엔 넣지 않고, 로그인 · 가입 기능을 staging에 올릴 때 넣는다
 - [x] rtf.or.kr DNS 연결 (2026-11-22)
   - 카페24 A 레코드를 Vercel로 변경. www는 카페24 기본 별칭이 따라와 `rtf.or.kr`로 308 리다이렉트
