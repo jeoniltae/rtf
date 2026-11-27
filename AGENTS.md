@@ -69,7 +69,12 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - 배포: Vercel
   - `main` → rtf.or.kr (오픈 전에는 '준비 중' 화면)
   - `stg` → stg.rtf.or.kr (목사님 확인용)
-- staging 보호: `src/proxy.ts`가 `PREVIEW_PASSWORD`가 있을 때만 Basic Auth 적용. 이 변수는 **Vercel Preview 환경에만** 넣는다.
+  - `dev` → dev.rtf.or.kr (개발자 확인용)
+- 병합 순서: `feature/* → dev → stg → main`. 기능 브랜치는 `dev`에서 만든다
+  - `dev → stg`는 dev에 쌓인 것이 전부 목사님께 보여 드릴 만할 때만 통째로 합친다. 일부만 먼저 보여 드려야 하면 그 feature 브랜치를 `stg`로 직접 합치고, 뒤에 `stg`를 `dev`로 합쳐 맞춘다
+  - 보는 사람에 따라 화면을 나누는 것은 환경변수나 코드 분기가 아니라 브랜치(주소)로 한다
+  - 오픈 전에도 `stg → main`을 주기적으로 합쳐도 된다. 단 준비 중 rewrite는 확장자 있는 주소를 건너뛰므로 `robots.txt` · `sitemap.xml` · `public/` 파일은 운영에 그대로 나간다. sitemap에는 오픈 때까지 홈만 두고, `public/`에 공개하면 안 되는 파일을 두지 않는다
+- staging 보호: `src/proxy.ts`가 `PREVIEW_PASSWORD`가 있을 때만 Basic Auth 적용. 이 변수는 **Vercel Preview 환경에만** 넣는다 (`dev` · `stg` 둘 다 적용). 한쪽에만 필요한 값은 Vercel에서 Preview 변수의 브랜치를 지정한다.
 - staging 검색 제외: `VERCEL_ENV === "preview"`이면 `X-Robots-Tag: noindex, nofollow` (비밀번호 유무와 상관없음)
 - 준비 중 화면: `SITE_COMING_SOON=true`(**Vercel Production 환경에만**)이면 `src/proxy.ts`가 확장자 없는 모든 주소를 `/coming-soon`으로 rewrite한다(주소 유지, 200). 오픈 날 이 값을 지우고 재배포한다. 운영에는 `NEXT_PUBLIC_SITE_URL=https://rtf.or.kr`도 넣어야 canonical이 맞다
 - 환경변수: `.env.example` 참고. 로컬은 `.env.local`, 배포는 Vercel Dashboard

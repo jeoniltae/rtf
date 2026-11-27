@@ -2,7 +2,7 @@
 plans_dir: docs/plans
 design: existing # DESIGN.md를 따른다 (색 · 글꼴 · 모양은 globals.css 토큰)
 test: auto # npm test(Vitest) · lint · typecheck · build 자동 감지. E2E(Playwright)는 아래 VERIFY 조건으로 실행
-base_branch: stg # 개발은 stg에서 하고, 오픈 당일 stg를 main에 합친다
+base_branch: dev # feature/* → dev(개발자 확인) → stg(목사님 확인) → main. 자세한 흐름은 AGENTS.md DevOps
 ---
 
 # feature-workflow 프로젝트 설정
