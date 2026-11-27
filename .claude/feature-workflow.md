@@ -1,8 +1,8 @@
 ---
 plans_dir: docs/plans
-design: existing # 브랜드 컬러·디자인 시안 전까지 shadcn 기본 토큰을 따른다
+design: existing # DESIGN.md를 따른다 (색 · 글꼴 · 모양은 globals.css 토큰)
 test: auto # npm test(Vitest) · lint · typecheck · build 자동 감지. E2E(Playwright)는 아래 VERIFY 조건으로 실행
-base_branch: main # stg 브랜치를 만든 뒤 stg로 바꾼다
+base_branch: stg # 개발은 stg에서 하고, 오픈 당일 stg를 main에 합친다
 ---
 
 # feature-workflow 프로젝트 설정
@@ -47,7 +47,7 @@ base_branch: main # stg 브랜치를 만든 뒤 stg로 바꾼다
 - E2E가 실패하면 `test-results/`의 trace를 먼저 열어 본다 (`npx playwright show-trace <경로>`)
 - 로그인이 필요한 E2E는 테스트용 Supabase와 테스트 계정이 준비되기 전까지 작성하지 않는다. 그동안은 아래 항목을 `agent-browser`로 직접 확인한다
 
-- 화면을 건드렸으면 360px 모바일과 1024px 이상 PC 두 폭으로 확인한다
+- 화면을 건드렸으면 360px 모바일과 1280px PC 두 폭으로 확인한다 (Playwright 설정과 같은 폭)
 - 권한이 갈리는 기능이면 비회원 · 가입자 · 관리자 세 상태로 각각 확인한다. 관리자 전용 화면은 권한 없이 들어가면 404인지 확인한다
 - 로그인이 필요한 화면은 주소창 직접 진입과 다른 화면을 거쳐 이동하는 경로 두 가지로 확인한다
 - URL 상태(`?round` `?page` `?q` `?speaker`)를 쓰는 화면이면 뒤로가기와 주소 공유(새 탭에서 열기)를 확인한다

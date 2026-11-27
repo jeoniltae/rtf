@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EB_Garamond } from "next/font/google";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE_URL } from "@/shared/config";
@@ -8,6 +9,14 @@ const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
   variable: "--font-sans",
   weight: "45 920",
+  display: "swap",
+});
+
+// 영문 표제 전용(라틴어 표어 · 회차 숫자 · 영문 기관명). 한글에는 쓰지 않는다
+const ebGaramond = EB_Garamond({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -29,7 +38,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" className={`${pretendard.variable} h-full antialiased`}>
+    <html
+      lang="ko"
+      className={`${pretendard.variable} ${ebGaramond.variable} h-full antialiased`}
+    >
       <body className="flex min-h-full flex-col">
         {children}
         <Analytics />

@@ -16,6 +16,7 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - 화면설계서 · 기능 명세서 v0.4 (노션): https://app.notion.com/p/40e45580eb6b8188a778f988146df5fd
   — 화면 ID(`MAIN-01`, `EVT-03P` 등), URL 규칙, 권한표(8장), 입력값 규칙(9-2), 데이터 구조(10장)의 원본
 - 기술 스택 (노션): https://app.notion.com/p/41a45580eb6b81a3a6cfebc9bd5aab09
+- 디자인 기준 (색 · 글꼴 · 모양 · 버튼): `DESIGN.md` — 화면을 만들거나 고치기 전에 확인. 준비 중 화면은 예외
 - 코딩 규칙 및 금지 사항: `docs/coding-guidelines.md`
 - 작업 결정 기록 (여러 기능에 걸친 결정): `docs/context-notes.md`
 - 작업 목록 (프로젝트 전체 목차): `docs/todo.md`
@@ -35,7 +36,7 @@ UI는 **모바일 우선** 반응형 웹으로 제작한다 (360px → `md:` 768
 - Styling: Tailwind CSS 4 + shadcn/ui (Radix, 쓰는 컴포넌트만 `npx shadcn@latest add`로 추가)
 - 에디터: Tiptap (MIT 오픈소스 확장만, Pro 확장 금지)
 - 입력값 검사: zod — 화면과 서버가 같은 스키마 공유
-- 폰트: Pretendard (`next/font/local`, `src/app/fonts/`)
+- 폰트: Pretendard (`next/font/local`, `src/app/fonts/`) + 영문 표제만 EB Garamond (`next/font/google`, `font-serif`)
 - Testing: Vitest 4 (단위 — `src/**/*.test.ts`) + Playwright (E2E — `e2e/`, 모바일 360px · PC 1280px)
   - Vitest 5는 Node 22.12 이상이 필요해 처음에 4로 시작했다. Node 24로 고정했으니 필요할 때 5로 올릴 수 있다
 
